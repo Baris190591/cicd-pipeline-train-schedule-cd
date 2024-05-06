@@ -7,7 +7,7 @@ node {
     // Configuring the Node.js and npm versions
     download = true
     version = "9.11.2"  // Updated to more current LTS version of Node.js
-    npmVersion = "10.7.0"  // Updated npm version
+    npmVersion = "8.3.0"  // Updated npm version
 }
 
 // Declare a build task
