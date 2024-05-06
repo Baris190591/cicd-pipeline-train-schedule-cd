@@ -1,13 +1,13 @@
 plugins {
   // Include the nodeJS plugin to execute nodejs and npm tasks
-  id "com.github.node-gradle.node" version "4.0.0"  // Updated plugin version and ID
+  id "com.github.node-gradle.node" version "7.0.2"  // Updated plugin version and ID
 }
 
 node {
     // Configuring the Node.js and npm versions
     download = true
-    version = "16.14.0"  // Updated to more current LTS version of Node.js
-    npmVersion = "8.3.0"  // Updated npm version
+    version = "21.0.0"  // Updated to more current LTS version of Node.js
+    npmVersion = "10.7.0"  // Updated npm version
 }
 
 // Declare a build task
