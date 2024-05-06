@@ -9,35 +9,40 @@ pipeline {
             }
         }
         stage('DeployToStaging') {
-            when {
-                branch 'master'
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
-                    sshPublisher(
-                        failOnError: true,
-                        continueOnError: false,
-                        publishers: [
-                            sshPublisherDesc(
-                                configName: 'staging',
-                                sshCredentials: [
-                                    username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
-                                ], 
-                                transfers: [
-                                    sshTransfer(
-                                        sourceFiles: 'dist/trainSchedule.zip',
-                                        removePrefix: 'dist/',
-                                        remoteDirectory: '/tmp',
-                                        execCommand: 'sudo /usr/bin/systemctl stop train-schedule && rm -rf /opt/train-schedule/* && unzip /tmp/trainSchedule.zip -d /opt/train-schedule && sudo /usr/bin/systemctl start train-schedule'
-                                    )
+    when {
+        branch 'master'
+    }
+    steps {
+        withCredentials([sshUserPrivateKey(credentialsId: 'webserver_login', keyFileVariable: 'SSH_KEY')]) {
+            sshPublisher(
+                failOnError: true,
+                continueOnError: false,
+                publishers: [
+                    sshPublisherDesc(
+                        configName: 'staging',
+                        sshCredentials: [
+                            basicSSHUserPrivateKey(
+                                username: "root", // Username to login with
+                                passphrase: '', // If your key has a passphrase, put it here
+                                privateKeySource: [
+                                    directEntry(privateKey: "${SSH_KEY}")
                                 ]
+                            )
+                        ],
+                        transfers: [
+                            sshTransfer(
+                                sourceFiles: 'dist/trainSchedule.zip',
+                                removePrefix: 'dist/',
+                                remoteDirectory: '/tmp',
+                                execCommand: 'sudo /usr/bin/systemctl stop train-schedule && rm -rf /opt/train-schedule/* && unzip /tmp/trainSchedule.zip -d /opt/train-schedule && sudo /usr/bin/systemctl start train-schedule'
                             )
                         ]
                     )
-                }
-            }
+                ]
+            )
         }
+    }
+}
         stage('DeployToProduction') {
             when {
                 branch 'master'
