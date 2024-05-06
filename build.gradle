@@ -6,7 +6,7 @@ plugins {
 node {
     // Configuring the Node.js and npm versions
     download = true
-    version = "21.0.0"  // Updated to more current LTS version of Node.js
+    version = "12.22.9"  // Updated to more current LTS version of Node.js
     npmVersion = "10.7.0"  // Updated npm version
 }
 
