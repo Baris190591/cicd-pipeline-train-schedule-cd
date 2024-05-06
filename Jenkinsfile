@@ -50,7 +50,7 @@ pipeline {
             steps {
                 input 'Does the staging environment look OK?'
                 milestone(1)
-                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'webserver_login', keyFileVariable: 'SSH_KEY')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -58,8 +58,13 @@ pipeline {
                             sshPublisherDesc(
                                 configName: 'production',
                                 sshCredentials: [
-                                    username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
+                                    basicSSHUserPrivateKey(
+                                        username: "root", // Username to login with
+                                        passphrase: '', // If your key has a passphrase, put it here
+                                        privateKeySource: [
+                                            directEntry(privateKey: "${SSH_KEY}")
+                                        ]
+                                    )
                                 ], 
                                 transfers: [
                                     sshTransfer(
