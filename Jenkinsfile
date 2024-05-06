@@ -24,9 +24,7 @@ pipeline {
                                     basicSSHUserPrivateKey(
                                         username: "root", // Username to login with
                                         passphrase: '', // If your key has a passphrase, put it here
-                                        privateKeySource: [
-                                            directEntry(privateKey: "${SSH_KEY}")
-                                        ]
+                                        id: 'webserver_login'
                                     )
                                 ], 
                                 transfers: [
@@ -61,9 +59,7 @@ pipeline {
                                     basicSSHUserPrivateKey(
                                         username: "root", // Username to login with
                                         passphrase: '', // If your key has a passphrase, put it here
-                                        privateKeySource: [
-                                            directEntry(privateKey: "${SSH_KEY}")
-                                        ]
+                                        id: 'webserver_login'
                                     )
                                 ], 
                                 transfers: [
