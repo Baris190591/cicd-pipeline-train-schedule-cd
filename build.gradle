@@ -1,36 +1,47 @@
 plugins {
-  //inlude the nodeJS plugin to execute nodejs and npm tasks
-  // id "com.moowork.node" version "1.2.0"
-  id("com.github.node-gradle.node") version "2.2.0"
+  // Include the nodeJS plugin to execute nodejs and npm tasks
+  id "com.github.node-gradle.node" version "4.0.0"  // Updated plugin version and ID
 }
 
 node {
-	download = true
-	version = "9.11.1"
-	npmVersion = "5.6.0"
+    // Configuring the Node.js and npm versions
+    download = true
+    version = "16.14.0"  // Updated to more current LTS version of Node.js
+    npmVersion = "8.3.0"  // Updated npm version
 }
 
-//declare a build task
-task build
+// Declare a build task
+tasks.register('build')
 
-//declare a task to create a zip of the app
-task zip(type: Zip) {
-	from ('.') {
-		include "*"
-		include "bin/**"
-		include "data/**"
-		include "node_modules/**"
-		include "public/**"
-		include "routes/**"
-		include "views/**"
-	}
-	destinationDir(file("dist"))
-	baseName "trainSchedule"
+// Declare a task to create a zip of the app
+tasks.register('zip', Zip) {
+    from ('.') {
+        include "*"
+        include "bin/**"
+        include "data/**"
+        include "node_modules/**"
+        include "public/**"
+        include "routes/**"
+        include "views/**"
+    }
+    destinationDirectory = file("dist")
+    archiveBaseName.set("trainSchedule")
 }
 
-//declare task dependencies
-build.dependsOn zip
-zip.dependsOn npm_build
-npm_build.dependsOn npm_test
-npm_test.dependsOn npmInstall
-npm_build.dependsOn npmInstall
+// Declare task dependencies using new task configuration
+tasks.named('build').configure {
+    dependsOn 'zip'
+}
+
+tasks.named('zip').configure {
+    dependsOn 'npm_build'
+}
+
+tasks.named('npm_build').configure {
+    dependsOn 'npm_test'
+    dependsOn 'npmInstall'
+}
+
+tasks.named('npm_test').configure {
+    dependsOn 'npmInstall'
+}
