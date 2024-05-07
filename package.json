@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "./node_modules/.bin/mocha"
+    "build": "echo 'No build step required'"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
