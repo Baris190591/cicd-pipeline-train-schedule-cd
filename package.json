@@ -7,17 +7,18 @@
     "test": "./node_modules/.bin/mocha"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.16.0",
-    "http-errors": "~1.6.2",
-    "jade": "~1.11.0",
-    "lowdb": "^1.0.0",
-    "morgan": "~1.9.0",
-    "npm": "^5.8.0"
+    "cookie-parser": "^1.4.6",    // Updated patch version
+    "debug": "^4.3.3",            // Updated to latest major version
+    "express": "^4.17.2",         // Updated minor version
+    "http-errors": "^1.8.0",      // Updated minor version
+    "pug": "^3.0.2",              // Replaced 'jade' with 'pug' (jade's new name)
+    "lowdb": "^1.0.0",            // Kept as-is, check if newer versions are suitable
+    "morgan": "^1.10.0",          // Updated minor version
+    "formidable": "^2.0.1"        // Replaced formidable with updated version
   },
   "devDependencies": {
-    "mocha": "^5.0.5",
-    "supertest": "^3.0.0"
+    "mocha": "^9.1.3",            // Updated major version
+    "supertest": "^6.1.6",        // Updated major version
+    "jstransformer": "^1.0.0"     // Replaced deprecated 'transformers'
   }
 }
